@@ -1,0 +1,19 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+allure-report
+allure-results
+src/.DS_Store
+.DS_Store
+coverage-output/
+pw-radar-report.html
+pw-radar-results.json
+logs/
+test-results/
+challenger.json
+.last-run.json

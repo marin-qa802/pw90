@@ -1,0 +1,41 @@
+# это комментарий
+name: pw8 tests
+
+# условия запуска
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  myTests:
+    runs-on: ubuntu-latest
+    steps:
+    # подготовка среды
+    - name: Checkout
+      uses: actions/checkout@v7.0.1
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v7.1.0           
+# запуск тестов
+    - name: Установить пакеты
+      run: npm ci
+    - name: Установить браузеры
+      run: npx playwright install --with-deps
+    - name: Запустить тесты
+      run: npm t
+    - name: Аллюр одним файлом
+      run: npx allure awesome ./allure-results --single-file
+      continue-on-error: true
+      if: always()
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v7.0.2
+      continue-on-error: true
+      if: always()
+      with:
+        name: Артефакты сборки
+        path: |
+          allure-report/index.html
+          allure-results
+          playwright-report

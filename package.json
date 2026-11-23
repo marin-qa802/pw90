@@ -1,0 +1,34 @@
+{
+  "name": "pw8",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "allure": "npx allure generate &&npx allure open",
+    "allureFile": "npx allure awesome ./allure-results --single-file",
+    "code": "npx playwrightcodegen",
+    "report": "npx playwright show-report",
+    "test": "npx playwright test",
+    "coverage": "npx pw-radar -s https://apichallenges.com/api/docs/openapi-3.1.json -i coverage-output -l ru"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mnmlsniper/pw8.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/mnmlsniper/pw8/issues"
+  },
+  "homepage": "https://github.com/mnmlsniper/pw8#readme",
+  "devDependencies": {
+    "@faker-js/faker": "^10.6.0",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.5.1",
+    "allure": "^3.22.1",
+    "allure-playwright": "^3.14.0",
+    "pw-radar": "^0.2.2"
+  }
+}
