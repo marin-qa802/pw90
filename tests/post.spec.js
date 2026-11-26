@@ -1,14 +1,14 @@
 import { test, expect } from '../src/fixtures/api.fixture.js';
+import { TodoBuilder } from '../src/builders/todo.builder.js';
 import { API_URLS } from '../src/config/api.config.js';
-
 test.describe('POST /api/todos @post', () => {
-  test.beforeEach(async ({ todoController }) => {
-    await todoController.deleteAllTodos();
+  test.beforeEach(async ({ todoFacade }) => {
+    await todoFacade.deleteAllTodos(); // Добавь этот метод в фасад, если нет
   });
 
-  test('1. Создать todo с валидными данными @post', async ({ todoController, todoBuilder }) => {
-    const payload = todoBuilder.withTitle('Buy Milk').build();
-    const res = await todoController.createTodo(payload);
+  test('1. Создать todo с валидными данными @post', async ({ todoFacade }) => {
+    const payload = new TodoBuilder().withTitle('Buy Milk').build();
+    const res = await todoFacade.createTodo(payload);
     expect(res.status()).toBe(201);
 
     const body = await res.json();
@@ -16,9 +16,9 @@ test.describe('POST /api/todos @post', () => {
     expect(typeof body.id).toBe('number');
   });
 
-  test('2. Создать todo с doneStatus=true @post', async ({ todoController, todoBuilder }) => {
-    const payload = todoBuilder.withStatus(true).build();
-    const res = await todoController.createTodo(payload);
+  test('2. Создать todo с doneStatus=true @post', async ({ todoFacade }) => {
+    const payload = new TodoBuilder().withStatus(true).build();
+    const res = await todoFacade.createTodo(payload);
     expect(res.status()).toBe(201);
 
     const body = await res.json();

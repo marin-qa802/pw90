@@ -2,36 +2,34 @@ import { test, expect } from '../src/fixtures/api.fixture.js';
 import { TodoBuilder } from '../src/builders/todo.builder.js';
 
 test.describe('GET /api/todos @get', () => {
-  test.beforeEach(async ({ todoController }) => {
-    await todoController.deleteAllTodos();
+  test.beforeEach(async ({ todoFacade }) => {
+    await todoFacade.deleteAllTodos(); // Убедись, что метод есть в фасаде
   });
 
-  test('1. Получить все todos @get', async ({ todoController }) => {
-    const res = await todoController.getAllTodos();
+  test('1. Получить все todos @get', async ({ todoFacade }) => {
+    const res = await todoFacade.getAllTodos();
     expect(res.status()).toBe(200);
 
     const body = await res.json();
     expect(Array.isArray(body.todos)).toBeTruthy();
   });
 
-  test('2. Получить todo по ID @get', async ({ todoController, todoBuilder }) => {
-    const payload = todoBuilder.build();
-    const createRes = await todoController.createTodo(payload);
-    expect(createRes.status()).toBe(201);
+  test('2. Получить todo по ID @get', async ({ todoFacade }) => {
+    const payload = new TodoBuilder().build();
+    const createRes = await todoFacade.createTodo(payload);
     const { id } = await createRes.json();
 
-    const res = await todoController.getTodoById(id);
+    const res = await todoFacade.getTodoById(id);
     expect(res.status()).toBe(200);
 
     const body = await res.json();
     const todo = Array.isArray(body) ? body[0] : (body.todos ? body.todos[0] : body);
-
     expect(todo.id).toBe(id);
     expect(todo.title).toBe(payload.title);
   });
 
-  test('3. Получить несуществующий todo (404) @get', async ({ todoController }) => {
-    const res = await todoController.getTodoById(999999);
+  test('3. Получить несуществующий todo (404) @get', async ({ todoFacade }) => {
+    const res = await todoFacade.getTodoById(999999);
     expect(res.status()).toBe(404);
   });
 
